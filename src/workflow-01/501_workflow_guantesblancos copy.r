@@ -14,7 +14,7 @@ require("ParamHelpers")
 envg <- env()
 
 envg$EXPENV <- list()
-envg$EXPENV$exp_dir <- "~/buckets/b1/exp/"
+envg$EXPENV$exp_dir <- "~/buckets/b1/exp/guantes_blancos_mod"
 envg$EXPENV$wf_dir <- "~/buckets/b1/flow/"
 envg$EXPENV$wf_dir_local <- "~/flow/"
 envg$EXPENV$repo_dir <- "~/labo2024v1/"
@@ -107,7 +107,7 @@ DR_drifting_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$meta$script <- "/src/workflow-01/z531_DR_corregir_drifting.r"
 
   # No me engraso las manos con Feature Engineering manual
-  param_local$variables_intrames <- FALSE
+  param_local$variables_intrames <- TRUE
   # valores posibles
   #  "ninguno", "rank_simple", "rank_cero_fijo", "deflacion", "estandarizar"
   param_local$metodo <- "rank_cero_fijo"
@@ -128,33 +128,33 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$meta$script <- "/src/workflow-01/z541_FE_historia.r"
 
   param_local$lag1 <- TRUE
-  param_local$lag2 <- FALSE # no me engraso con los lags de orden 2
-  param_local$lag3 <- FALSE # no me engraso con los lags de orden 3
+  param_local$lag2 <- TRUE # no me engraso con los lags de orden 2
+  param_local$lag3 <- TRUE # no me engraso con los lags de orden 3
 
   # no me engraso las manos con las tendencias
-  param_local$Tendencias1$run <- FALSE  # FALSE, no corre nada de lo que sigue
+  param_local$Tendencias1$run <- TRUE # FALSE, no corre nada de lo que sigue
   param_local$Tendencias1$ventana <- 6
   param_local$Tendencias1$tendencia <- TRUE
-  param_local$Tendencias1$minimo <- FALSE
-  param_local$Tendencias1$maximo <- FALSE
-  param_local$Tendencias1$promedio <- FALSE
-  param_local$Tendencias1$ratioavg <- FALSE
-  param_local$Tendencias1$ratiomax <- FALSE
+  param_local$Tendencias1$minimo <- TRUE
+  param_local$Tendencias1$maximo <- TRUE
+  param_local$Tendencias1$promedio <- TRUE
+  param_local$Tendencias1$ratioavg <- TRUE
+  param_local$Tendencias1$ratiomax <- TRUE
 
   # no me engraso las manos con las tendencias de segundo orden
-  param_local$Tendencias2$run <- FALSE
+  param_local$Tendencias2$run <- TRUE
   param_local$Tendencias2$ventana <- 6
   param_local$Tendencias2$tendencia <- TRUE
-  param_local$Tendencias2$minimo <- FALSE
-  param_local$Tendencias2$maximo <- FALSE
-  param_local$Tendencias2$promedio <- FALSE
-  param_local$Tendencias2$ratioavg <- FALSE
-  param_local$Tendencias2$ratiomax <- FALSE
+  param_local$Tendencias2$minimo <- TRUE 
+  param_local$Tendencias2$maximo <- TRUE
+  param_local$Tendencias2$promedio <- TRUE
+  param_local$Tendencias2$ratioavg <- TRUE
+  param_local$Tendencias2$ratiomax <- TRUE 
 
 
   # No me engraso las manos con las variables nuevas agregadas por un RF
   # esta parte demora mucho tiempo en correr, y estoy en modo manos_limpias
-  param_local$RandomForest$run <- FALSE
+  param_local$RandomForest$run <- TRUE
   param_local$RandomForest$num.trees <- 20
   param_local$RandomForest$max.depth <- 4
   param_local$RandomForest$min.node.size <- 1000
@@ -162,7 +162,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con los Canaritos Asesinos
   # varia de 0.0 a 2.0, si es 0.0 NO se activan
-  param_local$CanaritosAsesinos$ratio <- 0.0
+  param_local$CanaritosAsesinos$ratio <- 0.5
   # desvios estandar de la media, para el cutoff
   param_local$CanaritosAsesinos$desvios <- 4.0
 
@@ -276,7 +276,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 15 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 45 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
