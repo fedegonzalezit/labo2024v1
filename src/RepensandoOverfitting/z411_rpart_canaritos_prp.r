@@ -16,7 +16,7 @@ dir.create("./exp/CN4110/", showWarnings = FALSE)
 setwd("./exp/CN4110/")
 
 # uso esta semilla para los canaritos
-set.seed(102191)
+set.seed(158351)
 
 
 # agrego los siguientes canaritos
@@ -30,8 +30,8 @@ for( i in 1:154 ) dataset[ , paste0("canarito", i ) :=  runif( nrow(dataset)) ]
                model = TRUE,
                xval = 0,
                cp = -0.5,
-               minsplit =  600,
-               minbucket = 150,
+               minsplit =  1415,
+               minbucket = 707,
                maxdepth = 6 )
 
 

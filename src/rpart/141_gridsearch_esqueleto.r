@@ -7,7 +7,6 @@ gc() # Garbage Collection
 
 require("data.table")
 require("rpart")
-
 require("parallel")
 
 PARAM <- list()
@@ -116,30 +115,35 @@ tb_grid_search <- data.table( max_depth = integer(),
 
 for (vmax_depth in c(4, 6, 8, 10, 12, 14)) {
   for (vmin_split in c(1000, 800, 600, 400, 200, 100, 50, 20, 10)) {
-    # notar como se agrega
+    for (cp in c(-1, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2)) {
+        for( minbucket in c(5, 25, 100, 150, 250, 325, 500)){
+        # notar como se agrega
 
-    # vminsplit  minima cantidad de registros en un nodo para hacer el split
-    param_basicos <- list(
-      "cp" = -0.5, # complejidad minima
-      "minsplit" = vmin_split,
-      "minbucket" = 5, # minima cantidad de registros en una hoja
-      "maxdepth" = vmax_depth
-    ) # profundidad máxima del arbol
+        # vminsplit  minima cantidad de registros en un nodo para hacer el split
+        param_basicos <- list(
+            "cp" = cp, # complejidad minima
+            "minsplit" = vmin_split,
+            "minbucket" = minbucket, # minima cantidad de registros en una hoja
+            "maxdepth" = vmax_depth
+        ) # profundidad máxima del arbol
 
-    # Un solo llamado, con la semilla 17
-    ganancia_promedio <- ArbolesMontecarlo(PARAM$semillas, param_basicos)
+        # Un solo llamado, con la semilla 17
+        ganancia_promedio <- ArbolesMontecarlo(PARAM$semillas, param_basicos)
 
-    # agrego a la tabla
-    tb_grid_search <- rbindlist( 
-      list( tb_grid_search, 
-            list( vmax_depth, vmin_split, ganancia_promedio) ) )
+        # agrego a la tabla
+        tb_grid_search <- rbindlist( 
+        list( tb_grid_search, 
+                list( vmax_depth, vmin_split,cp, minbucket, ganancia_promedio) ), fill=TRUE )
 
+        }
+     
+    }
   }
 
   # escribo la tabla a disco en cada vuelta del loop mas externo
   Sys.sleep(2)  # espero un par de segundos
 
   fwrite( tb_grid_search,
-          file = archivo_salida,
-          sep = "\t" )
+            file = archivo_salida,
+            sep = "\t" )
 }
