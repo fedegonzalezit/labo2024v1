@@ -5,7 +5,8 @@ require("data.table")
 require("rpart")
 
 PARAM <- list()
-PARAM$semilla <- 102191
+#PARAM$semilla <- 158351
+PARAM$semilla <- 141223 # semilla nerio
 
 #------------------------------------------------------------------------------
 # particionar agrega una columna llamada fold a un dataset
@@ -33,11 +34,12 @@ particionar <- function(
 
 # Aqui se debe poner la carpeta de la computadora local
 # Establezco el Working Directory
-setwd("X:\\gdrive\\austral2023r\\")
+setwd("/home/fede/Documents/MS Austral/2 - 01 - Laboratorio de implementación I")
 
 # cargo los datos
-dataset <- fread("./datasets/dataset_pequeno.csv")
+dataset <- fread("./dataset_pequeno.csv")
 
+dataset <- setorder(dataset, "mcuenta_corriente")
 # trabajo solo con los datos con clase, es decir 202107
 dataset <- dataset[clase_ternaria != ""]
 

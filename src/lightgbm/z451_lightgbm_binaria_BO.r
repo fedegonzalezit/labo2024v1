@@ -33,7 +33,7 @@ options(error = function() {
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM <- list()
 
-PARAM$experimento <- "HT4510"
+PARAM$experimento <- "HT4510_2"
 
 PARAM$input$dataset <- "./datasets/dataset_pequeno.csv"
 PARAM$input$training <- c(202107) # los meses en los que vamos a entrenar
@@ -56,6 +56,11 @@ hs <- makeParamSet(
   makeIntegerParam("min_data_in_leaf", lower = 1L, upper = 8000L),
   makeIntegerParam("num_leaves", lower = 16L, upper = 1024L),
   makeIntegerParam("envios", lower = 5000L, upper = 15000L)
+  makeNumericParam("lambda_l1", lower = 0.0, upper = 0.4),
+  makeNumericParam("lambda_l2", lower = 0.0, upper = 0.4),
+  # max_depth from -1 to 20
+  makeIntegerParam("max_depth", lower = -1L, upper = 20L),
+  makeNumericParam("min_gain_to_split", lower = 0.0, upper = 0.1),
 )
 
 #------------------------------------------------------------------------------
@@ -138,10 +143,6 @@ EstimarGanancia_lightgbm <- function(x) {
     boost_from_average = TRUE,
     feature_pre_filter = FALSE,
     verbosity = -100,
-    max_depth = -1, # -1 significa no limitar,  por ahora lo dejo fijo
-    min_gain_to_split = 0.0, # por ahora, lo dejo fijo
-    lambda_l1 = 0.0, # por ahora, lo dejo fijo
-    lambda_l2 = 0.0, # por ahora, lo dejo fijo
     max_bin = 31, # por ahora, lo dejo fijo
     num_iterations = 9999, # valor grande, lo limita early_stopping_rounds
     force_row_wise = TRUE, # para evitar warning
