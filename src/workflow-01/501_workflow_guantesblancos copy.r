@@ -331,7 +331,7 @@ corrida_guantesblancos_202109 <- function( pnombrewf, pvirgen=FALSE )
   HT_tuning_guantesblancos( paste("HT0001", EXP_CODE), paste("TS0001", EXP_CODE) )
 
   # El ZZ depente de HT y TS
-  ZZ_final_guantesblancos( paste("ZZ0001", EXP_CODE), c(paste("HT0001", EXP_CODE), paste("TS0001", EXP_CODE) )
+  ZZ_final_guantesblancos( paste("ZZ0001", EXP_CODE), c(paste("HT0001", EXP_CODE), paste("TS0001", EXP_CODE) ))
 
 
   exp_wf_end( pnombrewf, pvirgen ) # linea fija
@@ -353,7 +353,7 @@ corrida_guantesblancos_202107 <- function( pnombrewf, pvirgen=FALSE )
   HT_tuning_guantesblancos( paste("HT0002", EXP_CODE), paste("TS0002", EXP_CODE) )
 
   # El ZZ depente de HT y TS
-  ZZ_final_guantesblancos( paste("ZZ0002", EXP_CODE), c(paste("HT0002", EXP_CODE), paste("TS0002", EXP_CODE) )
+  ZZ_final_guantesblancos( paste("ZZ0002", EXP_CODE), c(paste("HT0002", EXP_CODE), paste("TS0002", EXP_CODE) ))
 
 
   exp_wf_end( pnombrewf, pvirgen ) # linea fija
