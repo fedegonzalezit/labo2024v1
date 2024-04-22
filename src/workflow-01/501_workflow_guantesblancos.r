@@ -323,7 +323,7 @@ corrida_guantesblancos_202109 <- function( pnombrewf, pvirgen=FALSE )
   DT_incorporar_dataset_default( paste("DT0001", EXP_CODE, sep=""), "competencia_2024.csv.gz")
   CA_catastrophe_default( paste("CA0001", EXP_CODE, sep=""), paste("DT0001", EXP_CODE, sep="") )
 
-  DR_drifting_guantesblancos( paste("DR0001", EXP_MODE, sep=""), paste("CA0001", EXP_CODE, sep="") )
+  DR_drifting_guantesblancos( paste("DR0001", EXP_CODE, sep=""), paste("CA0001", EXP_CODE, sep="") )
   FE_historia_guantesblancos( paste("FE0001", EXP_CODE, sep=""), paste("DR0001", EXP_CODE, sep="") )
 
   TS_strategy_guantesblancos_202109( paste("TS0001", EXP_CODE, sep=""), paste("FE0001", EXP_CODE, sep="") )
