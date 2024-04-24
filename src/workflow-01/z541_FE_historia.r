@@ -460,6 +460,7 @@ setorderv(dataset, PARAM$dataset_metadata$primarykey)
 
 
 if (PARAM$lag1) {
+  print("procesando lag1")
   # creo los campos lags de orden 1
   OUTPUT$lag1$ncol_antes <- ncol(dataset)
   dataset[, paste0(cols_lagueables, "_lag1") := shift(.SD, 1, NA, "lag"),
@@ -480,6 +481,7 @@ if (PARAM$lag1) {
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$lag2) {
+  print("procesando lag2")
   # creo los campos lags de orden 2
   OUTPUT$lag2$ncol_antes <- ncol(dataset)
   dataset[, paste0(cols_lagueables, "_lag2") := shift(.SD, 2, NA, "lag"),
@@ -500,6 +502,7 @@ if (PARAM$lag2) {
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$lag3) {
+  print("procesando lag3")
   # creo los campos lags de orden 3
   OUTPUT$lag3$ncol_antes <- ncol(dataset)
   dataset[, paste0(cols_lagueables, "_lag3") := shift(.SD, 3, NA, "lag"),
@@ -527,6 +530,7 @@ setorderv(dataset, PARAM$dataset_metadata$primarykey)
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$Tendencias1$run) {
+  print("procesando tendencias1")
   OUTPUT$TendenciasYmuchomas1$ncol_antes <- ncol(dataset)
   TendenciaYmuchomas(dataset,
     cols = cols_lagueables,
@@ -546,6 +550,7 @@ if (PARAM$Tendencias1$run) {
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$Tendencias2$run) {
+  print("procesando tendencias2")
   OUTPUT$TendenciasYmuchomas2$ncol_antes <- ncol(dataset)
   TendenciaYmuchomas(dataset,
     cols = cols_lagueables,
@@ -566,6 +571,7 @@ if (PARAM$Tendencias2$run) {
 # Agrego variables a partir de las hojas de un Random Forest
 
 if (PARAM$RandomForest$run) {
+  print("procesando RandomForest")
   OUTPUT$AgregaVarRandomForest$ncol_antes <- ncol(dataset)
   AgregaVarRandomForest(
     num.trees = PARAM$RandomForest$num.trees,
@@ -586,6 +592,7 @@ if (PARAM$RandomForest$run) {
 # with great power comes grest responsability
 
 if (PARAM$CanaritosAsesinos$ratio > 0.0) {
+  print("procesando CanaritosAsesinos")
   OUTPUT$CanaritosAsesinos$ncol_antes <- ncol(dataset)
   CanaritosAsesinos(
     canaritos_ratio = PARAM$CanaritosAsesinos$ratio,
@@ -597,6 +604,7 @@ if (PARAM$CanaritosAsesinos$ratio > 0.0) {
   GrabarOutput()
 }
 
+print("Guardando resultados")
 #------------------------------------------------------------------------------
 # grabo el dataset
 
