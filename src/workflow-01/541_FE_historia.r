@@ -164,6 +164,7 @@ TendenciaYmuchomas <- function(
 
   for (campo in cols) {
     nueva_col <- fhistC(dataset[, get(campo)], vector_desde)
+    gc()
 
     if (tendencia) {
       dataset[, paste0(campo, "_tend", ventana) :=
