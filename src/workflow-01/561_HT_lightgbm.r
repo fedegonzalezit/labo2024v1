@@ -403,10 +403,6 @@ parametrizar  <- function( lparam )
 
   for( param  in  names( lparam ) )
   {
-    if (lparam[[param]] == "boolean"){
-      param_original_name <- gsub("_enabled$", "", param)
-      hs <- append( hs, list( makeDiscreteParam( param_original_name, values = c(0, 1) ) ) )
-    }
     if( length( lparam[[ param ]] ) > 1 )
     {
       desde  <- as.numeric( lparam[[ param ]][[1]]  )
@@ -419,8 +415,13 @@ parametrizar  <- function( lparam )
          hs  <- append( hs, 
                         list( makeIntegerParam( param, lower= desde, upper= hasta) ) )
       }
-
       param_fijos[[ param ]] <- NULL  #lo quito 
+    }
+    else if (lparam[[param]] == "boolean") {
+      param_original_name <- gsub("_enabled$", "", param)
+      hs <- append( hs, list( makeDiscreteParam( param_original_name, values = c(0, 1) ) ) )
+      param_fijos[[ param ]] <- NULL  #lo quito 
+      param_fijos[[ param_original_name ]] <- NULL  #lo quito 
     }
   }
 
