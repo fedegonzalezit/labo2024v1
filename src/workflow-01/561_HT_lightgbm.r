@@ -444,7 +444,7 @@ process_parameters <- function(parameters) {
     }
   }
   print(paste("parameters_output", parameters_output))
-  return(parameters_output
+  return(parameters_output)
 }
 
 
