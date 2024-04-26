@@ -300,7 +300,7 @@ ZZ_final_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 {
   if( -1 == (param_local <- exp_init( pmyexp, pinputexps, pserver ))$resultado ) return( 0 )# linea fija
 
-  param_local$meta$script <- "/src/workflow-01/z571_ZZ_final.r"
+  param_local$meta$script <- "/src/workflow-01/571_ZZ_final.r"
 
   # Que modelos quiero, segun su posicion en el ranking e la Bayesian Optimizacion, ordenado por ganancia descendente
   param_local$modelos_rank <- c(1)

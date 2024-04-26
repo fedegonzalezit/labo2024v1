@@ -193,6 +193,7 @@ EstimarGanancia_lightgbm <- function(x) {
   xx$ganancia <- ganancia_test_normalizada
   xx$iteracion_bayesiana <- GLOBAL_iteracion
 
+  # TODO: en el log para BO_log deberian estar los parametros sin procesar para que se pueda poner en columnas
   exp_log(xx, arch = "BO_log.txt")
 
   # voy grabando las mejores column importance
@@ -446,8 +447,6 @@ process_parameters <- function(parameters) {
       parameters_cp[[key]] <- NULL
     }
   }
-  print(paste("parameters", parameters))
-  print(paste("parameters_cp", parameters_cp))
   return(parameters_cp)
 }
 
