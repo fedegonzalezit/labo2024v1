@@ -278,7 +278,7 @@ EstimarGanancia_lightgbmCV <- function(x) {
   GrabarOutput()
 
   param_completo <- c(PARAM$lgb_basicos, x)
-
+  print(param_completo)
   param_completo$early_stopping_rounds <-
     as.integer(400 + 4 / param_completo$learning_rate)
 
@@ -439,7 +439,8 @@ process_parameters <- function(parameters) {
       if (parameters[enabled_flag] == 1) {
         parameters_output[[key]] <- parameters[key]
       }
-    } else {
+    }
+    else if (endsWith(key, "_enabled") == FALSE){
       parameters_output[[key]] <- parameters[key]
     }
   }
