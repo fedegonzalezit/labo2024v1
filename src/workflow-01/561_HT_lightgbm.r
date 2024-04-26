@@ -137,7 +137,8 @@ EstimarGanancia_lightgbm <- function(x) {
   # hago la union de los parametros basicos y los moviles que vienen en x
   x_processed <- process_parameters(x)
   param_completo <- c(PARAM$lgb_basicos, x_processed)
-  print(param_completo)
+  param_completo_sin_procesar <- c(PARAM$lgb_basicos, x)
+
   param_completo$early_stopping_rounds <-
     as.integer(400 + 4 / param_completo$learning_rate)
 
@@ -185,7 +186,7 @@ EstimarGanancia_lightgbm <- function(x) {
 
   # logueo final
   ds <- list("cols" = ncol(dtrain), "rows" = nrow(dtrain))
-  xx <- c(ds, copy(param_completo))
+  xx <- c(ds, copy(param_completo_sin_procesar))
 
   xx$early_stopping_rounds <- NULL
   xx$num_iterations <- modelo_train$best_iter
@@ -279,7 +280,6 @@ EstimarGanancia_lightgbmCV <- function(x) {
   GrabarOutput()
 
   param_completo <- c(PARAM$lgb_basicos, x)
-  print(param_completo)
   param_completo$early_stopping_rounds <-
     as.integer(400 + 4 / param_completo$learning_rate)
 
@@ -419,7 +419,6 @@ parametrizar  <- function( lparam )
       param_fijos[[ param ]] <- NULL  #lo quito 
     }
     else if (lparam[[param]] == "boolean") {
-      print(paste0("procesando boolean ", param))
       hs <- append( hs, list( makeIntegerParam( param, lower = 0L, upper = 1L ) ) )
       param_fijos[[ param ]] <- NULL  #lo quito 
     }
