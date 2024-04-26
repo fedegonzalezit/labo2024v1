@@ -137,7 +137,7 @@ EstimarGanancia_lightgbm <- function(x) {
   # hago la union de los parametros basicos y los moviles que vienen en x
   x_processed <- process_parameters(x)
   param_completo <- c(PARAM$lgb_basicos, x_processed)
-
+  print(param_completo)
   param_completo$early_stopping_rounds <-
     as.integer(400 + 4 / param_completo$learning_rate)
 
@@ -432,20 +432,23 @@ parametrizar  <- function( lparam )
 # hago una funcion que recibe paramSet, itero sobre todos los parametros, si uno termina en _enabled, es una discreta 0 o 1 
 # si es 1, pongo el parametro sin en _enabled en la lista final de parametros ya que esta habilitado, si es 0 no lo pongo
 process_parameters <- function(parameters) {
-  parameters_output <- list()
+  parameters_cp = copy(parameters)
   for (key in names(parameters)) {
     enabled_flag <- paste0(key, "_enabled")
     if (enabled_flag %in% names(parameters)) {
-      if (parameters[enabled_flag] == 1) {
-        parameters_output[[key]] <- parameters[key]
+      if (parameters[enabled_flag] != 1) {
+        # elimino el parametro de parameters_cp
+        parameters_cp[[key]] <- NULL
       }
     }
-    else if (endsWith(key, "_enabled") == FALSE){
-      parameters_output[[key]] <- parameters[key]
+    else if (endsWith(key, "_enabled") == TRUE){
+      # elimino el parametro de parameters_cp
+      parameters_cp[[key]] <- NULL
     }
   }
-  print(paste("parameters_output", parameters_output))
-  return(parameters_output)
+  print(paste("parameters", parameters))
+  print(paste("parameters_cp", parameters_cp))
+  return(parameters_cp)
 }
 
 
