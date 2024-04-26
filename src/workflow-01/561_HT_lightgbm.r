@@ -418,10 +418,9 @@ parametrizar  <- function( lparam )
       param_fijos[[ param ]] <- NULL  #lo quito 
     }
     else if (lparam[[param]] == "boolean") {
-      param_original_name <- gsub("_enabled$", "", param)
-      hs <- append( hs, list( makeDiscreteParam( param_original_name, values = c(0, 1) ) ) )
+      print(paste0("procesando boolean ", param))
+      hs <- append( hs, list( makeDiscreteParam( param, values = c(0, 1) ) ) )
       param_fijos[[ param ]] <- NULL  #lo quito 
-      param_fijos[[ param_original_name ]] <- NULL  #lo quito 
     }
   }
 
@@ -440,6 +439,7 @@ process_parameters <- function(parameters) {
       parameters_output[[key_sin_enabled]] <- parameters[key_sin_enabled]
     }
   }
+  print(paste("parameters_output", parameters_output))
   return(parameters_output)
 }
 

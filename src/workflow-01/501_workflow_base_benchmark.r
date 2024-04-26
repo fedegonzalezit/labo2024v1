@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "corrida_HT_3"
+EXP_CODE = "corrida_HT_3_benchmark"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -234,7 +234,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 {
   if( -1 == (param_local <- exp_init( pmyexp, pinputexps, pserver ))$resultado ) return( 0 )# linea fija
 
-  param_local$meta$script <- "/src/workflow-01/561_HT_lightgbm.r"
+  param_local$meta$script <- "/src/workflow-01/z561_HT_lightgbm.r"
 
   # En caso que se haga cross validation, se usa esta cantidad de folds
   param_local$lgb_crossvalidation_folds <- 5
@@ -252,39 +252,30 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     feature_pre_filter = FALSE,
     force_row_wise = TRUE, # para reducir warnings
     verbosity = -100,
-    max_depth_enabled = "boolean",
-    max_depth = c(0,30, "integer"), # -1 significa no limitar,  por ahora lo dejo fijo
-    min_gain_to_split_enabled = "boolean",
-    min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
-    min_sum_hessian_in_leaf_enabled = "boolean",
-    min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
-    lambda_l1_enabled = "boolean",
-    lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
-    lambda_l2_enabled = "boolean",
-    lambda_l2 = c(0.0, 0.4), # lambda_l2 >= 0.0
+    max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
+    min_gain_to_split = 0.0, # min_gain_to_split >= 0.0
+    min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
+    lambda_l1 = 0.0, # lambda_l1 >= 0.0
+    lambda_l2 = 0.0, # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
 
-    bagging_fraction_enabled = "boolean",
-    bagging_fraction = c(0.0, 1.0), # 0.0 < bagging_fraction <= 1.0
-    pos_bagging_fraction_enabled = "boolean",
-    pos_bagging_fraction = c(0.0, 1.0), # 0.0 < pos_bagging_fraction <= 1.0
-    neg_bagging_fraction_enabled = "boolean",
-    neg_bagging_fraction = c(0.0, 1.0), # 0.0 < neg_bagging_fraction <= 1.0
+    bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
+    pos_bagging_fraction = 1.0, # 0.0 < pos_bagging_fraction <= 1.0
+    neg_bagging_fraction = 1.0, # 0.0 < neg_bagging_fraction <= 1.0
     is_unbalance = FALSE, #
     scale_pos_weight = 1.0, # scale_pos_weight > 0.0
 
-    drop_rate_enabled = "boolean",
-    drop_rate = c(0.0, 1.0), # 0.0 < neg_bagging_fraction <= 1.0
+    drop_rate = 0.1, # 0.0 < neg_bagging_fraction <= 1.0
     max_drop = 50, # <=0 means no limit
     skip_drop = 0.5, # 0.0 <= skip_drop <= 1.0
 
     extra_trees = FALSE,
     # White Gloves Bayesian Optimization, with a happy narrow exploration
-    learning_rate = c( 0.01, 0.8 ),
-    feature_fraction = c( 0.2, 1.0 ),
-    num_leaves = c( 300L, 2024L,  "integer" ),
-    min_data_in_leaf = c( 100L, 8000L, "integer" )
+    learning_rate = c( 0.02, 0.8 ),
+    feature_fraction = c( 0.5, 0.9 ),
+    num_leaves = c( 300L, 1024L,  "integer" ),
+    min_data_in_leaf = c( 100L, 2000L, "integer" )
   )
 
 
