@@ -434,13 +434,17 @@ parametrizar  <- function( lparam )
 process_parameters <- function(parameters) {
   parameters_output <- list()
   for (key in names(parameters)) {
-    if (grepl("_enabled$", key) && parameters[key] == 1) {
-      key_sin_enabled <- gsub("_enabled$", "", key)
-      parameters_output[[key_sin_enabled]] <- parameters[key_sin_enabled]
+    enabled_flag <- paste0(key, "_enabled")
+    if (enabled_flag %in% names(parameters)) {
+      if (parameters[enabled_flag] == 1) {
+        parameters_output[[key]] <- parameters[key]
+      }
+    } else {
+      parameters_output[[key]] <- parameters[key]
     }
   }
   print(paste("parameters_output", parameters_output))
-  return(parameters_output)
+  return(parameters_output
 }
 
 
