@@ -419,7 +419,7 @@ parametrizar  <- function( lparam )
     }
     else if (lparam[[param]] == "boolean") {
       print(paste0("procesando boolean ", param))
-      hs <- append( hs, list( makeIntegerParam( param, values = c(0L, 1L) ) ) )
+      hs <- append( hs, list( makeIntegerParam( param, lower = 0L, upper = 1L ) ) )
       param_fijos[[ param ]] <- NULL  #lo quito 
     }
   }
