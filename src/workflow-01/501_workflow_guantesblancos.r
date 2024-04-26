@@ -147,8 +147,8 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$Tendencias2$run <- TRUE
   param_local$Tendencias2$ventana <- 7
   param_local$Tendencias2$tendencia <- TRUE
-  param_local$Tendencias2$minimo <- FALSE 
-  param_local$Tendencias2$maximo <- FALSE
+  param_local$Tendencias2$minimo <- TRUE 
+  param_local$Tendencias2$maximo <- TRUE 
   param_local$Tendencias2$promedio <- TRUE
   param_local$Tendencias2$ratioavg <- TRUE
   param_local$Tendencias2$ratiomax <- TRUE 
@@ -157,8 +157,8 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   # No me engraso las manos con las variables nuevas agregadas por un RF
   # esta parte demora mucho tiempo en correr, y estoy en modo manos_limpias
   param_local$RandomForest$run <- TRUE
-  param_local$RandomForest$num.trees <- 250
-  param_local$RandomForest$max.depth <- 8
+  param_local$RandomForest$num.trees <- 50
+  param_local$RandomForest$max.depth <- 7
   param_local$RandomForest$min.node.size <- 1000
   param_local$RandomForest$mtry <- 40
 
@@ -253,7 +253,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     force_row_wise = TRUE, # para reducir warnings
     verbosity = -100,
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
-    min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
+    min_gain_to_split = 0.0, # min_gain_to_split >= 0.0
     min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
     lambda_l1 = 0.0, # lambda_l1 >= 0.0
     lambda_l2 = c(0.0, 0.4), # lambda_l2 >= 0.0
