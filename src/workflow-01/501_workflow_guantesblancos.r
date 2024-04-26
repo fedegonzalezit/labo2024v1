@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "512gb_more_final_train"
+EXP_CODE = "512gb_the_good_one"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -135,7 +135,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con las tendencias
   param_local$Tendencias1$run <- TRUE # FALSE, no corre nada de lo que sigue
-  param_local$Tendencias1$ventana <- 4
+  param_local$Tendencias1$ventana <- 5
   param_local$Tendencias1$tendencia <- TRUE
   param_local$Tendencias1$minimo <- TRUE
   param_local$Tendencias1$maximo <- TRUE
@@ -145,7 +145,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con las tendencias de segundo orden
   param_local$Tendencias2$run <- TRUE
-  param_local$Tendencias2$ventana <- 8
+  param_local$Tendencias2$ventana <- 7
   param_local$Tendencias2$tendencia <- TRUE
   param_local$Tendencias2$minimo <- FALSE 
   param_local$Tendencias2$maximo <- FALSE
@@ -157,14 +157,14 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   # No me engraso las manos con las variables nuevas agregadas por un RF
   # esta parte demora mucho tiempo en correr, y estoy en modo manos_limpias
   param_local$RandomForest$run <- TRUE
-  param_local$RandomForest$num.trees <- 300
-  param_local$RandomForest$max.depth <- 6
+  param_local$RandomForest$num.trees <- 250
+  param_local$RandomForest$max.depth <- 8
   param_local$RandomForest$min.node.size <- 1000
   param_local$RandomForest$mtry <- 40
 
   # no me engraso las manos con los Canaritos Asesinos
   # varia de 0.0 a 2.0, si es 0.0 NO se activan
-  param_local$CanaritosAsesinos$ratio <- 1.0
+  param_local$CanaritosAsesinos$ratio <- 0.4
   # desvios estandar de la media, para el cutoff
   param_local$CanaritosAsesinos$desvios <- 4.0
 
@@ -188,7 +188,7 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
                               201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
 
 
-  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101, 202012, 202011)
+  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
@@ -256,7 +256,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
     min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
     lambda_l1 = 0.0, # lambda_l1 >= 0.0
-    lambda_l2 = 0.0, # lambda_l2 >= 0.0
+    lambda_l2 = c(0.0, 0.4), # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
 
@@ -274,7 +274,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     # White Gloves Bayesian Optimization, with a happy narrow exploration
     learning_rate = c( 0.01, 0.8 ),
     feature_fraction = c( 0.2, 1.0 ),
-    num_leaves = c( 300L, 1024L,  "integer" ),
+    num_leaves = c( 300L, 2024L,  "integer" ),
     min_data_in_leaf = c( 100L, 8000L, "integer" )
   )
 
