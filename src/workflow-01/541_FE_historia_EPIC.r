@@ -530,7 +530,7 @@ if (PARAM$RatiosEpicoDiv0NA$run) {
   GrabarOutput()
 }
 
-
+cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 
 if (PARAM$lag1) {
   print("procesando lag1")
