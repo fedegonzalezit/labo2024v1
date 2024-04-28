@@ -691,7 +691,7 @@ cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 
 
 cols_monetarios <- colnames(dataset)
-cols_monetarios <- campos_monetarios[campos_monetarios %like%
+cols_monetarios <- cols_monetarios[cols_monetarios %like%
   "^(m|Visa_m|Master_m|vm_m|cliente_edad)"]
 
 if (PARAM$RatiosEpico$run) {
