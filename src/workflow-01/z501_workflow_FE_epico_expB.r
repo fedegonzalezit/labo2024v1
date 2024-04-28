@@ -138,8 +138,9 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$lag7 <- FALSE # no me engraso con los lags de orden 3
   param_local$lag8 <- FALSE # no me engraso con los lags de orden 3
   param_local$lag9 <- FALSE # no me engraso con los lags de orden 3
-  
+
   param_local$RatiosEpico$run <- FALSE
+  param_local$RatiosEpicoDiv0NA$run <- FALSE
 
   # no me engraso las manos con las tendencias
   param_local$Tendencias1$run <- TRUE  # FALSE, no corre nada de lo que sigue
