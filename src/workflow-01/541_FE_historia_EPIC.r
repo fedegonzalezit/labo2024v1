@@ -126,19 +126,20 @@ cppFunction("NumericVector fhistC(NumericVector pcolumna, IntegerVector pdesde )
 }")
 
 ## calcula todos los ratios entre campos monetarios
-RatiosEpico <- function(
-  dataset, cols
-){
-  for (i in 1:(length(cols) -1)){
-    for (j in (i+1):length(cols)){
+
+RatiosEpico <- function(dataset, cols) {
+  
+  for (i in 1:(length(cols) - 1)) {
+    for (j in (i + 1):length(cols)) {
       campo_1 <- cols[i]
       campo_2 <- cols[j]
 
-      nueva_col <- paste(campo_1, campo_2, "ratio", sep="_")
-      ratio <- ifelse(dataset[[campo_2]] == 0,
-                sign(dataset[[campo_1]]) * .Machine$double.xmax,
-                dataset[[campo_1]] / dataset[[campo_2]])
-      dataset[nueva_col] <- ratio
+      nueva_col <- paste(campo_1, campo_2, "ratio", sep = "_")
+      
+      # Calcular el ratio y manejar divisiones por cero
+      dataset[, (nueva_col) := ifelse(get(campo_2) == 0,
+                                      sign(get(campo_1)) * .Machine$double.xmax,
+                                      get(campo_1) / get(campo_2))]
     }
   }
 }
