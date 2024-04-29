@@ -247,6 +247,7 @@ TendenciaYmuchomas <- function(
         get(campo) / nueva_col[(2 * last + 1):(3 * last)]]
     }
   }
+  return dataset
 }
 #------------------------------------------------------------------------------
 # agrega al dataset nuevas variables {0,1}
@@ -735,7 +736,7 @@ cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$Tendencias1$run) {
   print("procesando tendencias1")
   OUTPUT$TendenciasYmuchomas1$ncol_antes <- ncol(dataset)
-  TendenciaYmuchomas(dataset,
+  dataset <- TendenciaYmuchomas(dataset,
     cols = cols_lagueables,
     ventana = PARAM$Tendencias1$ventana, # 6 meses de historia
     tendencia = PARAM$Tendencias1$tendencia,
@@ -752,12 +753,11 @@ if (PARAM$Tendencias1$run) {
 
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
-print(cols_lagueables)
 print(colnames(dataset))
 if (PARAM$Tendencias2$run) {
   print("procesando tendencias2")
   OUTPUT$TendenciasYmuchomas2$ncol_antes <- ncol(dataset)
-  TendenciaYmuchomas(dataset,
+  dataset <- TendenciaYmuchomas(dataset,
     cols = cols_lagueables,
     ventana = PARAM$Tendencias2$ventana, # 6 meses de historia
     tendencia = PARAM$Tendencias2$tendencia,
