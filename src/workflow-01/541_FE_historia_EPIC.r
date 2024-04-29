@@ -247,7 +247,7 @@ TendenciaYmuchomas <- function(
         get(campo) / nueva_col[(2 * last + 1):(3 * last)]]
     }
   }
-  return dataset
+  return (dataset)
 }
 #------------------------------------------------------------------------------
 # agrega al dataset nuevas variables {0,1}
@@ -753,7 +753,6 @@ if (PARAM$Tendencias1$run) {
 
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
-print(colnames(dataset))
 if (PARAM$Tendencias2$run) {
   print("procesando tendencias2")
   OUTPUT$TendenciasYmuchomas2$ncol_antes <- ncol(dataset)
