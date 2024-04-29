@@ -530,6 +530,7 @@ if (PARAM$RatiosEpicoDiv0NA$run) {
   GrabarOutput()
 }
 
+# esta linea es necesaria?? 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 
 if (PARAM$lag1) {
@@ -751,6 +752,8 @@ if (PARAM$Tendencias1$run) {
 
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
+print(cols_lagueables)
+print(colnames(dataset))
 if (PARAM$Tendencias2$run) {
   print("procesando tendencias2")
   OUTPUT$TendenciasYmuchomas2$ncol_antes <- ncol(dataset)
@@ -768,7 +771,7 @@ if (PARAM$Tendencias2$run) {
   OUTPUT$TendenciasYmuchomas2$ncol_despues <- ncol(dataset)
   GrabarOutput()
 }
-
+print(colnames(dataset))
 #------------------------------------------------------------------------------
 # Agrego variables a partir de las hojas de un Random Forest
 
