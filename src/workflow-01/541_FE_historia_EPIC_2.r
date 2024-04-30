@@ -473,8 +473,9 @@ OUTPUT$PARAM <- PARAM
 OUTPUT$time$start <- format(Sys.time(), "%Y%m%d %H%M%S")
 
 PARAM$RandomForest$semilla <- PARAM$semilla
-PARAM$CanaritosAsesinos$semilla <- PARAM$semilla
-  
+PARAM$CanaritosAsesinos1$semilla <- PARAM$semilla
+PARAM$CanaritosAsesinos2$semilla <- PARAM$semilla
+
 # cargo el dataset donde voy a entrenar
 # esta en la carpeta del exp_input y siempre se llama  dataset.csv.gz
 # cargo el dataset
