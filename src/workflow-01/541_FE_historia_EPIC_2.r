@@ -513,7 +513,7 @@ setorderv(dataset, PARAM$dataset_metadata$primarykey)
 
 cols_monetarios <- cols_lagueables
 cols_monetarios <- cols_monetarios[cols_monetarios %like%
-  "^(m|Visa_m|Master_m|vm_m|cliente_edad)"]
+  "^(m|Visa_m|Master_m|vm_m|cliente_edad|cliente_antigueadad|cproductos|ctrx_quarter)"]
 
 if (PARAM$RatiosEpico$run) {
   print("procesando RatiosEpico")
