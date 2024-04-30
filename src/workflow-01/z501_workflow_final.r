@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "final_1"
+EXP_CODE = "final_2"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -112,7 +112,7 @@ DR_drifting_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$variables_intrames <- TRUE
   # valores posibles
   #  "ninguno", "rank_simple", "rank_cero_fijo", "deflacion", "estandarizar"
-  param_local$metodo <- "estandarizar"
+  param_local$metodo <- "rank_cero_fijo"
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -173,7 +173,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con los Canaritos Asesinos
   # varia de 0.0 a 2.0, si es 0.0 NO se activan
-  param_local$CanaritosAsesinos1$ratio <- 0.4 # pre RF (optimizo memoria)
+  param_local$CanaritosAsesinos1$ratio <- 0.25 # pre RF (optimizo memoria)
   param_local$CanaritosAsesinos2$ratio <- 0.1 # post RF
 
   # desvios estandar de la media, para el cutoff
@@ -200,13 +200,13 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
                               201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
 
 
-  param_local$train$training <- c(202105, 202104, 202103)
+  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
   # Atencion  0.1  de  undersampling de la clase mayoritaria,  los CONTINUA
   # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
-  param_local$train$undersampling <- 0.1
+  param_local$train$undersampling <- 0.2
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -246,7 +246,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 {
   if( -1 == (param_local <- exp_init( pmyexp, pinputexps, pserver ))$resultado ) return( 0 )# linea fija
 
-  param_local$meta$script <- "/src/workflow-01/z561_HT_lightgbm.r"
+  param_local$meta$script <- "/src/workflow-01/561_HT_lightgbm.r"
 
   # En caso que se haga cross validation, se usa esta cantidad de folds
   param_local$lgb_crossvalidation_folds <- 5
@@ -265,14 +265,18 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     force_row_wise = TRUE, # para reducir warnings
     verbosity = -100,
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
-    min_gain_to_split = 0.0, # min_gain_to_split >= 0.0
-    min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
-    lambda_l1 = 0.0, # lambda_l1 >= 0.0
+    min_gain_to_split_enabled = "boolean",
+    min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
+    min_sum_hessian_in_leaf_enabled = "boolean",
+    min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
+    lambda_l1_enabled = "boolean",
+    lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
     lambda_l2 = 0.0, # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
 
-    bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
+    bagging_fraction_enabled = "boolean",
+    bagging_fraction = c(0.0, 1.0), # 0.0 < bagging_fraction <= 1.0
     pos_bagging_fraction = 1.0, # 0.0 < pos_bagging_fraction <= 1.0
     neg_bagging_fraction = 1.0, # 0.0 < neg_bagging_fraction <= 1.0
     is_unbalance = FALSE, #
@@ -287,12 +291,12 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     learning_rate = c( 0.02, 0.8 ),
     feature_fraction = c( 0.5, 0.9 ),
     num_leaves = c( 300L, 1024L,  "integer" ),
-    min_data_in_leaf = c( 100L, 2000L, "integer" )
+    min_data_in_leaf = c( 100L, 10000L, "integer" )
   )
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 35 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 200 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
