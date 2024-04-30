@@ -247,6 +247,7 @@ TendenciaYmuchomas <- function(
         get(campo) / nueva_col[(2 * last + 1):(3 * last)]]
     }
   }
+  return (dataset)
 }
 #------------------------------------------------------------------------------
 # agrega al dataset nuevas variables {0,1}
@@ -514,7 +515,6 @@ cols_monetarios <- cols_lagueables
 cols_monetarios <- cols_monetarios[cols_monetarios %like%
   "^(m|Visa_m|Master_m|vm_m|cliente_edad)"]
 
-print(cols_monetarios)
 if (PARAM$RatiosEpico$run) {
   print("procesando RatiosEpico")
   OUTPUT$RatiosEpico$ncol_antes <- ncol(dataset)
@@ -531,7 +531,8 @@ if (PARAM$RatiosEpicoDiv0NA$run) {
   GrabarOutput()
 }
 
-#cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
+# esta linea es necesaria?? 
+cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 
 if (PARAM$lag1) {
   print("procesando lag1")
@@ -552,7 +553,6 @@ if (PARAM$lag1) {
   GrabarOutput()
 }
 
-print(cols_lagueables)
 
 cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$lag2) {
@@ -720,7 +720,6 @@ if (PARAM$lag9) {
   GrabarOutput()
 }
 
-print(cols_lagueables)
 
 #--------------------------------------
 # agrego las tendencias
@@ -737,7 +736,7 @@ cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$Tendencias1$run) {
   print("procesando tendencias1")
   OUTPUT$TendenciasYmuchomas1$ncol_antes <- ncol(dataset)
-  TendenciaYmuchomas(dataset,
+  dataset <- TendenciaYmuchomas(dataset,
     cols = cols_lagueables,
     ventana = PARAM$Tendencias1$ventana, # 6 meses de historia
     tendencia = PARAM$Tendencias1$tendencia,
@@ -757,7 +756,7 @@ cols_lagueables <- intersect(cols_lagueables, colnames(dataset))
 if (PARAM$Tendencias2$run) {
   print("procesando tendencias2")
   OUTPUT$TendenciasYmuchomas2$ncol_antes <- ncol(dataset)
-  TendenciaYmuchomas(dataset,
+  dataset <- TendenciaYmuchomas(dataset,
     cols = cols_lagueables,
     ventana = PARAM$Tendencias2$ventana, # 6 meses de historia
     tendencia = PARAM$Tendencias2$tendencia,
