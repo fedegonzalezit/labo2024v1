@@ -173,7 +173,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con los Canaritos Asesinos
   # varia de 0.0 a 2.0, si es 0.0 NO se activan
-  param_local$CanaritosAsesinos1$ratio <- 0.2 # pre RF (optimizo memoria)
+  param_local$CanaritosAsesinos1$ratio <- 0.4 # pre RF (optimizo memoria)
   param_local$CanaritosAsesinos2$ratio <- 0.1 # post RF
 
   # desvios estandar de la media, para el cutoff
