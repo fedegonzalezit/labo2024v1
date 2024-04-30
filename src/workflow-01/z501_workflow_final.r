@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "FE_experimento_C_mas_lags"
+EXP_CODE = "final_1"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -109,10 +109,10 @@ DR_drifting_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$meta$script <- "/src/workflow-01/z531_DR_corregir_drifting.r"
 
   # No me engraso las manos con Feature Engineering manual
-  param_local$variables_intrames <- FALSE
+  param_local$variables_intrames <- TRUE
   # valores posibles
   #  "ninguno", "rank_simple", "rank_cero_fijo", "deflacion", "estandarizar"
-  param_local$metodo <- "rank_cero_fijo"
+  param_local$metodo <- "estandarizar"
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -135,16 +135,16 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$lag4 <- TRUE # no me engraso con los lags de orden 4
   param_local$lag5 <- TRUE # no me engraso con los lags de orden 5
   param_local$lag6 <- TRUE # no me engraso con los lags de orden 6
-  param_local$lag7 <- FALSE # no me engraso con los lags de orden 7
-  param_local$lag8 <- FALSE # no me engraso con los lags de orden 8
-  param_local$lag9 <- FALSE # no me engraso con los lags de orden 9
+  param_local$lag7 <- TRUE # no me engraso con los lags de orden 7
+  param_local$lag8 <- TRUE # no me engraso con los lags de orden 8
+  param_local$lag9 <- TRUE # no me engraso con los lags de orden 9
 
   param_local$RatiosEpico$run <- TRUE
   param_local$RatiosEpicoDiv0NA$run <- FALSE
 
   # no me engraso las manos con las tendencias
   param_local$Tendencias1$run <- TRUE  # FALSE, no corre nada de lo que sigue
-  param_local$Tendencias1$ventana <- 5
+  param_local$Tendencias1$ventana <- 4
   param_local$Tendencias1$tendencia <- TRUE
   param_local$Tendencias1$minimo <- TRUE
   param_local$Tendencias1$maximo <- TRUE
@@ -153,14 +153,14 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$Tendencias1$ratiomax <- TRUE
 
   # no me engraso las manos con las tendencias de segundo orden
-  param_local$Tendencias2$run <- FALSE 
-  param_local$Tendencias2$ventana <- 6
+  param_local$Tendencias2$run <- TRUE 
+  param_local$Tendencias2$ventana <- 7
   param_local$Tendencias2$tendencia <- TRUE
-  param_local$Tendencias2$minimo <- FALSE
-  param_local$Tendencias2$maximo <- FALSE
-  param_local$Tendencias2$promedio <- FALSE
-  param_local$Tendencias2$ratioavg <- FALSE
-  param_local$Tendencias2$ratiomax <- FALSE
+  param_local$Tendencias2$minimo <- TRUE
+  param_local$Tendencias2$maximo <- TRUE
+  param_local$Tendencias2$promedio <- TRUE
+  param_local$Tendencias2$ratioavg <- TRUE
+  param_local$Tendencias2$ratiomax <- TRUE
 
 
   # No me engraso las manos con las variables nuevas agregadas por un RF
@@ -195,7 +195,9 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
 
   param_local$future <- c(202109)
-  param_local$final_train <- c(202107, 202106, 202105)
+  param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011, 
+                              202010, 202009, 202008, 20207, 202006, 202005, 202004, 202003, 202002, 202001, 202000, 
+                              201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
 
 
   param_local$train$training <- c(202105, 202104, 202103)
@@ -290,7 +292,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 15 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 35 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -306,8 +308,8 @@ ZZ_final_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   # Que modelos quiero, segun su posicion en el ranking e la Bayesian Optimizacion, ordenado por ganancia descendente
   param_local$modelos_rank <- c(1)
 
-  param_local$kaggle$envios_desde <-  8500L
-  param_local$kaggle$envios_hasta <- 14500L
+  param_local$kaggle$envios_desde <-  10000L
+  param_local$kaggle$envios_hasta <- 13000L
   param_local$kaggle$envios_salto <-   500L
 
   # para el caso que deba graficar

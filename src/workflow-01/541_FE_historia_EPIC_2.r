@@ -771,16 +771,16 @@ if (PARAM$Tendencias2$run) {
   GrabarOutput()
 }
 
-if (PARAM$CanaritosAsesinos$ratio > 0.0) {
-  print("procesando CanaritosAsesinos")
-  OUTPUT$CanaritosAsesinos$ncol_antes <- ncol(dataset)
+if (PARAM$CanaritosAsesinos1$ratio > 0.0) {
+  print("procesando CanaritosAsesinos1 - Pre random forest")
+  OUTPUT$CanaritosAsesinos1$ncol_antes <- ncol(dataset)
   CanaritosAsesinos(
-    canaritos_ratio = PARAM$CanaritosAsesinos$ratio,
-    canaritos_desvios = PARAM$CanaritosAsesinos$desvios,
-    canaritos_semilla = PARAM$CanaritosAsesinos$semilla
+    canaritos_ratio = PARAM$CanaritosAsesinos1$ratio,
+    canaritos_desvios = PARAM$CanaritosAsesinos1$desvios,
+    canaritos_semilla = PARAM$CanaritosAsesinos1$semilla
   )
 
-  OUTPUT$CanaritosAsesinos$ncol_despues <- ncol(dataset)
+  OUTPUT$CanaritosAsesinos1$ncol_despues <- ncol(dataset)
   GrabarOutput()
 }
 
@@ -807,7 +807,18 @@ if (PARAM$RandomForest$run) {
 #--------------------------------------------------------------------------
 # Elimino las variables que no son tan importantes en el dataset
 # with great power comes grest responsability
+if (PARAM$CanaritosAsesinos2$ratio > 0.0) {
+  print("procesando CanaritosAsesinos2 - final")
+  OUTPUT$CanaritosAsesinos2$ncol_antes <- ncol(dataset)
+  CanaritosAsesinos(
+    canaritos_ratio = PARAM$CanaritosAsesinos2$ratio,
+    canaritos_desvios = PARAM$CanaritosAsesinos2$desvios,
+    canaritos_semilla = PARAM$CanaritosAsesinos2$semilla
+  )
 
+  OUTPUT$CanaritosAsesinos2$ncol_despues <- ncol(dataset)
+  GrabarOutput()
+}
 
 
 print("Guardando resultados")
