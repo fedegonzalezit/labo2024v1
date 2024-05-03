@@ -196,7 +196,7 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011, 
-                              202010, 202009, 202008, 20207, 202006, 202005, 202004, 202003, 202002, 202001, 202000, 
+                              202010, 202009, 202008, 20207, 202006, 202005, 202004, 202003, 202002, 202001, 
                               201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
 
 
@@ -246,7 +246,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 {
   if( -1 == (param_local <- exp_init( pmyexp, pinputexps, pserver ))$resultado ) return( 0 )# linea fija
 
-  param_local$meta$script <- "/src/workflow-01/561_HT_lightgbm.r"
+  param_local$meta$script <- "/src/workflow-01/z561_HT_lightgbm.r"
 
   # En caso que se haga cross validation, se usa esta cantidad de folds
   param_local$lgb_crossvalidation_folds <- 5
