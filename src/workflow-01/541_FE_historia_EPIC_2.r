@@ -266,7 +266,7 @@ AgregaVarRandomForest <- function(
   azar <- runif(nrow(dataset_rf))
 
   dataset_rf[, entrenamiento :=
-    as.integer(foto_mes >= 202101 & foto_mes <= 202103 &
+    as.integer(foto_mes >= 202007 & foto_mes <= 202105 &
       (clase01 == 1 | azar < 0.10))]
 
   # imputo los nulos, ya que ranger no acepta nulos
@@ -514,7 +514,7 @@ setorderv(dataset, PARAM$dataset_metadata$primarykey)
 
 cols_monetarios <- cols_lagueables
 cols_monetarios <- cols_monetarios[cols_monetarios %like%
-  "^(m|Visa_m|Master_m|vm_m|cliente_edad|cliente_antigueadad|cproductos|ctrx_quarter)"]
+  "^(m|Visa_m|Master_m|vm_m|cliente_edad|cliente_antigueadad|cproductos|ctrx_quarter|ccheques|cinversion|cseguro|tcuentas|vmr_m)"]
 
 if (PARAM$RatiosEpico$run) {
   print("procesando RatiosEpico")

@@ -196,11 +196,11 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011, 
-                              202010, 202009, 202008, 20207, 202006, 202005, 202004, 202003, 202002, 202001, 
+                              202010, 202009, 202008, 20207, 202005, 202004, 202003, 202002, 202001, #no uso 202006 para entrenar
                               201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
 
 
-  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101)
+  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101, 202012, 202011, 202010, 202009)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
@@ -266,15 +266,15 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     verbosity = -100,
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
     #min_gain_to_split_enabled = "boolean",
-    #min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
+    min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
     min_gain_to_split = 0.0, # por ahora, lo dejo fijo
     #min_sum_hessian_in_leaf_enabled = "boolean",
-    #min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
-    min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
+    min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
+    #min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
 
     #lambda_l1_enabled = "boolean",
-    #lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
-    lambda_l1 = 0.0, # lambda_l1 >= 0.0
+    lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
+    #lambda_l1 = 0.0, # lambda_l1 >= 0.0
     lambda_l2 = 0.0, # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
@@ -301,7 +301,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 50 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 70 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -398,6 +398,6 @@ corrida_guantesblancos_202109( paste("gb01", EXP_CODE, sep="") )
 # Luego partiendo de  FE0001
 # genero TS0002, HT0002 y ZZ0002
 
-corrida_guantesblancos_202107( paste("gb02", EXP_CODE, sep="") )
+#corrida_guantesblancos_202107( paste("gb02", EXP_CODE, sep="") )
 
  
