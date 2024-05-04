@@ -516,6 +516,7 @@ cols_monetarios <- cols_lagueables
 cols_monetarios <- cols_monetarios[cols_monetarios %like%
   "^(m|Visa_m|Master_m|vm_m|cliente_edad|cliente_antigueadad|cproductos|ctrx_quarter|ccheques|cinversion|cseguro|tcuentas|vmr_m)"]
 
+print(cols_monetarios)
 if (PARAM$RatiosEpico$run) {
   print("procesando RatiosEpico")
   OUTPUT$RatiosEpico$ncol_antes <- ncol(dataset)
