@@ -167,7 +167,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   # esta parte demora mucho tiempo en correr, y estoy en modo manos_limpias
   param_local$RandomForest$run <- TRUE
   param_local$RandomForest$num.trees <- 35
-  param_local$RandomForest$max.depth <- 4
+  param_local$RandomForest$max.depth <- 5
   param_local$RandomForest$min.node.size <- 1000
   param_local$RandomForest$mtry <- 40
 
