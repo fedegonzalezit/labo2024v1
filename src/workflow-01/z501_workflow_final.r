@@ -267,7 +267,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
     #min_gain_to_split_enabled = "boolean",
     min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
-    min_gain_to_split = 0.0, # por ahora, lo dejo fijo
+    #min_gain_to_split = 0.0, # por ahora, lo dejo fijo
     #min_sum_hessian_in_leaf_enabled = "boolean",
     min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
     #min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
