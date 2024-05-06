@@ -200,7 +200,7 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
                               201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
 
 
-  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101, 202012, 202011, 202010, 202009)
+  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
