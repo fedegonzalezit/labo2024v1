@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "final_2"
+EXP_CODE = "final_autocorr_semillerio"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -151,6 +151,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$Tendencias1$promedio <- TRUE
   param_local$Tendencias1$ratioavg <- TRUE
   param_local$Tendencias1$ratiomax <- TRUE
+  param_local$Tendencias1$autocorr <- TRUE
 
   # no me engraso las manos con las tendencias de segundo orden
   param_local$Tendencias2$run <- TRUE 
@@ -161,20 +162,21 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$Tendencias2$promedio <- TRUE
   param_local$Tendencias2$ratioavg <- TRUE
   param_local$Tendencias2$ratiomax <- TRUE
+  param_local$Tendencias2$autocorr <- FALSE
 
 
   # No me engraso las manos con las variables nuevas agregadas por un RF
   # esta parte demora mucho tiempo en correr, y estoy en modo manos_limpias
   param_local$RandomForest$run <- TRUE
   param_local$RandomForest$num.trees <- 45
-  param_local$RandomForest$max.depth <- 6
+  param_local$RandomForest$max.depth <- 5
   param_local$RandomForest$min.node.size <- 1000
   param_local$RandomForest$mtry <- 40
 
   # no me engraso las manos con los Canaritos Asesinos
   # varia de 0.0 a 2.0, si es 0.0 NO se activan
   param_local$CanaritosAsesinos1$ratio <- 0.3 # pre RF (optimizo memoria)
-  param_local$CanaritosAsesinos2$ratio <- 0.1 # post RF
+  param_local$CanaritosAsesinos2$ratio <- 0.2 # post RF
 
   # desvios estandar de la media, para el cutoff
   param_local$CanaritosAsesinos1$desvios <- 4.0
@@ -197,7 +199,7 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011, 
                               202010, 202009, 202008, 20207, 202005, 202004, 202003, 202002, 202001, #no uso 202006 para entrenar
-                              201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201905, 201904, 201903, 201902, 201901)
+                              201912, 201911, 201910, 201909, 201908, 201907)
 
 
   param_local$train$training <- c(202105, 202104, 202103, 202102, 202101)
@@ -266,21 +268,21 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     verbosity = -100,
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
     #min_gain_to_split_enabled = "boolean",
-    #min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
+    min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
     min_gain_to_split = 0.0, # por ahora, lo dejo fijo
     #min_sum_hessian_in_leaf_enabled = "boolean",
-    #min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
+    min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
     min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
 
     #lambda_l1_enabled = "boolean",
-    #lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
+    lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
     lambda_l1 = 0.0, # lambda_l1 >= 0.0
     lambda_l2 = 0.0, # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
 
     #bagging_fraction_enabled = "boolean",
-    #bagging_fraction = c(0.0, 1.0), # 0.0 < bagging_fraction <= 1.0
+    bagging_fraction = c(0.0, 1.0), # 0.0 < bagging_fraction <= 1.0
     bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
     pos_bagging_fraction = 1.0, # 0.0 < pos_bagging_fraction <= 1.0
     neg_bagging_fraction = 1.0, # 0.0 < neg_bagging_fraction <= 1.0
@@ -293,15 +295,15 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
     extra_trees = FALSE,
     # White Gloves Bayesian Optimization, with a happy narrow exploration
-    learning_rate = c( 0.01, 0.8 ),
-    feature_fraction = c( 0.1, 0.99 ),
+    learning_rate = c( 0.02, 0.5 ),
+    feature_fraction = c( 0.5, 0.9 ),
     num_leaves = c( 300L, 5024L,  "integer" ),
     min_data_in_leaf = c( 100L, 10000L, "integer" )
   )
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 70 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 200 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -332,6 +334,32 @@ ZZ_final_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   return( exp_correr_script( param_local ) ) # linea fija
 }
 #------------------------------------------------------------------------------
+# proceso ZZ_final  baseline
+
+ZZ_final_semillerio_baseline <- function( pmyexp, pinputexps, pserver="local")
+{
+  if( -1 == (param_local <- exp_init( pmyexp, pinputexps, pserver ))$resultado ) return( 0 )# linea fija
+
+  param_local$meta$script <- "/src/workflow-01/z881_ZZ_final_semillerio.r"
+
+  # Que modelos quiero, segun su posicion en el ranking e la Bayesian Optimizacion, ordenado por ganancia descendente
+  param_local$modelos_rank <- c(1)
+
+  param_local$kaggle$envios_desde <-  10000L
+  param_local$kaggle$envios_hasta <- 13000L
+  param_local$kaggle$envios_salto <-   500L
+
+  # para el caso que deba graficar
+  param_local$graficar$envios_desde <-  8000L
+  param_local$graficar$envios_hasta <- 20000L
+  param_local$graficar$ventana_suavizado <- 2001L
+
+  # El parametro fundamental de semillerio
+  # Es la cantidad de LightGBM's que ensamblo
+  param_local$semillerio <- 20
+
+  return( exp_correr_script( param_local ) ) # linea fija
+}
 #------------------------------------------------------------------------------
 # A partir de ahora comienza la seccion de Workflows Completos
 #------------------------------------------------------------------------------
@@ -354,9 +382,7 @@ corrida_guantesblancos_202109 <- function( pnombrewf, pvirgen=FALSE )
   HT_tuning_guantesblancos( paste("HT0001", EXP_CODE, sep=""), paste("TS0001", EXP_CODE, sep="") )
 
   # El ZZ depente de HT y TS
-  ZZ_final_guantesblancos( paste("ZZ0001", EXP_CODE, sep=""), c(paste("HT0001", EXP_CODE, sep=""), paste("TS0001", EXP_CODE, sep="") ))
-
-
+  ZZ_final_semillerio_baseline( paste0("ZZ0001-sem", EXP_CODE) c(paste0("HT0001", EXP_CODE),paste0("TS0001", EXP_CODE)) )
 
 
   exp_wf_end( pnombrewf, pvirgen ) # linea fija

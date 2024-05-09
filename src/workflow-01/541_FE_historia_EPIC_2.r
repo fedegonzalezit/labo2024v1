@@ -8,7 +8,7 @@ gc(full = TRUE) # garbage collection
 require("data.table")
 require("yaml")
 require("Rcpp")
-
+library("stats")
 require("ranger")
 require("randomForest") # solo se usa para imputar nulos
 
@@ -185,7 +185,7 @@ RatiosEpicoDiv0HaceNA <- function(
 TendenciaYmuchomas <- function(
     dataset, cols, ventana = 6, tendencia = TRUE,
     minimo = TRUE, maximo = TRUE, promedio = TRUE,
-    ratioavg = FALSE, ratiomax = FALSE) {
+    ratioavg = FALSE, ratiomax = FALSE, autocorr = FALSE) {
   gc()
   # Esta es la cantidad de meses que utilizo para la historia
   ventana_regresion <- ventana
@@ -216,6 +216,15 @@ TendenciaYmuchomas <- function(
 
   for (campo in cols) {
     nueva_col <- fhistC(dataset[, get(campo)], vector_desde)
+
+    if (autocorr) {
+      # Calcula la autocorrelación para la ventana especificada
+      autocor <- acf(dataset[[campo]], lag.max = ventana, plot = FALSE)$acf
+      # Selecciona solo los valores de autocorrelación para la ventana especificada
+      autocor_values <- autocor[(1 * ventana + 1):(2 * ventana)]
+      # Agrega una nueva columna al dataset con el nombre adecuado y los valores de autocorrelación
+      dataset[, paste0(campo, "_autocorr", ventana) := autocor_values]
+    }
 
     if (tendencia) {
       dataset[, paste0(campo, "_tend", ventana) :=
@@ -266,7 +275,7 @@ AgregaVarRandomForest <- function(
   azar <- runif(nrow(dataset_rf))
 
   dataset_rf[, entrenamiento :=
-    as.integer(foto_mes >= 202007 & foto_mes <= 202105 &
+    as.integer(foto_mes >= 202007 & foto_mes <= 202103 &
       (clase01 == 1 | azar < 0.10))]
 
   # imputo los nulos, ya que ranger no acepta nulos
@@ -746,7 +755,8 @@ if (PARAM$Tendencias1$run) {
     maximo = PARAM$Tendencias1$maximo,
     promedio = PARAM$Tendencias1$promedio,
     ratioavg = PARAM$Tendencias1$ratioavg,
-    ratiomax = PARAM$Tendencias1$ratiomax
+    ratiomax = PARAM$Tendencias1$ratiomax,
+    autocorr = PARAM$Tendencias1$autocorr
   )
 
   OUTPUT$TendenciasYmuchomas1$ncol_despues <- ncol(dataset)
@@ -766,7 +776,8 @@ if (PARAM$Tendencias2$run) {
     maximo = PARAM$Tendencias2$maximo,
     promedio = PARAM$Tendencias2$promedio,
     ratioavg = PARAM$Tendencias2$ratioavg,
-    ratiomax = PARAM$Tendencias2$ratiomax
+    ratiomax = PARAM$Tendencias2$ratiomax,
+    autocorr = PARAM$Tendencias2$autocorr
   )
 
   OUTPUT$TendenciasYmuchomas2$ncol_despues <- ncol(dataset)
