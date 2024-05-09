@@ -144,7 +144,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con las tendencias
   param_local$Tendencias1$run <- TRUE  # FALSE, no corre nada de lo que sigue
-  param_local$Tendencias1$ventana <- 4
+  param_local$Tendencias1$ventana <- 5
   param_local$Tendencias1$tendencia <- TRUE
   param_local$Tendencias1$minimo <- TRUE
   param_local$Tendencias1$maximo <- TRUE
@@ -155,14 +155,14 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con las tendencias de segundo orden
   param_local$Tendencias2$run <- TRUE 
-  param_local$Tendencias2$ventana <- 7
+  param_local$Tendencias2$ventana <- 10
   param_local$Tendencias2$tendencia <- TRUE
   param_local$Tendencias2$minimo <- TRUE
   param_local$Tendencias2$maximo <- TRUE
   param_local$Tendencias2$promedio <- TRUE
   param_local$Tendencias2$ratioavg <- TRUE
   param_local$Tendencias2$ratiomax <- TRUE
-  param_local$Tendencias2$autocorr <- FALSE
+  param_local$Tendencias2$autocorr <- TRUE
 
 
   # No me engraso las manos con las variables nuevas agregadas por un RF

@@ -11,6 +11,7 @@ require("Rcpp")
 library("stats")
 require("ranger")
 require("randomForest") # solo se usa para imputar nulos
+library(zoo)
 
 require("lightgbm")
 
@@ -61,7 +62,7 @@ cppFunction("NumericVector fhistC(NumericVector pcolumna, IntegerVector pdesde )
   double  y[100] ;
 
   int n = pcolumna.size();
-  NumericVector out( 5*n );
+  NumericVector out( 7*n );
 
   for(int i = 0; i < n; i++)
   {
@@ -111,7 +112,24 @@ cppFunction("NumericVector fhistC(NumericVector pcolumna, IntegerVector pdesde )
       out[ i ]  =  (libre*xysum - xsum*ysum)/(libre*xxsum -xsum*xsum) ;
       out[ i + n ]    =  vmin ;
       out[ i + 2*n ]  =  vmax ;
-      out[ i + 3*n ]  =  ysum / libre ;
+      out[ i + 3*n ]  =  ysum / libre ;      
+      
+      // Calculate autocorrelation for a chosen lag (k)
+      // Autocorrelación
+      double autocorr_sum = 0.0;
+      for(int h = 0; h < libre - 1; h++)
+      {
+        autocorr_sum += (y[h] - out[i + 3 * n]) * (y[h + 1] - out[i + 3 * n]);
+      }
+      out[i + 4 * n] = autocorr_sum / (libre - 1);
+      
+      // Momento (varianza)
+      double moment_sum = 0.0;
+      for(int h = 0; h < libre; h++)
+      {
+        moment_sum += pow(y[h] - out[i + 3 * n], 2);
+      }
+      out[i + 5 * n] = moment_sum / (libre - 1);
     }
     else
     {
@@ -119,6 +137,8 @@ cppFunction("NumericVector fhistC(NumericVector pcolumna, IntegerVector pdesde )
       out[ i + n   ]  =  NA_REAL ;
       out[ i + 2*n ]  =  NA_REAL ;
       out[ i + 3*n ]  =  NA_REAL ;
+      out[i + 4 * n] = NA_REAL; // Autocorrelación
+      out[i + 5 * n] = NA_REAL; // Momento
     }
   }
 
@@ -218,12 +238,10 @@ TendenciaYmuchomas <- function(
     nueva_col <- fhistC(dataset[, get(campo)], vector_desde)
 
     if (autocorr) {
-      # Calcula la autocorrelación para la ventana especificada
-      autocor <- acf(dataset[[campo]], lag.max = ventana, plot = FALSE)$acf
-      # Selecciona solo los valores de autocorrelación para la ventana especificada
-      autocor_values <- autocor[(1 * ventana + 1):(2 * ventana)]
-      # Agrega una nueva columna al dataset con el nombre adecuado y los valores de autocorrelación
-      dataset[, paste0(campo, "_autocorr", ventana) := autocor_values]
+        dataset[, paste0(campo, "_autocorr", ventana) :=
+          nueva_col[(4 * last + 1):(5 * last)]]
+        dataset[, paste0(campo, "_momentum", ventana) :=
+                nueva_col[(5 * last + 1):(6 * last)]]
     }
 
     if (tendencia) {
