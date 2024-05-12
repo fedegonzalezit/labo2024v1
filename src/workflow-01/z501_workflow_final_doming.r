@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "final_con_pandemia_domingo" # al final es sin pandemia
+EXP_CODE = "final_con_pandemia_domingo"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -198,11 +198,11 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011,
-                              202010, 202009, 202008, 202002, 202001, #no uso 202006 para entrenar
+                              202010, 202009, 202008, 202007, 202005, 202004, 202003, 202002, 202001, #no uso 202006 para entrenar
                               201912, 201911, 201910, 201909)
 
 
-  param_local$train$training <- c(202105, 202104, 202103, 202102)
+  param_local$train$training <- c(202105, 202104, 202103, 202102, 202001)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
@@ -299,7 +299,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 50 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 40 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
