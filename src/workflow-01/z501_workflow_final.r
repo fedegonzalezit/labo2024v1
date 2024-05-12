@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "final_autocorr_semillerio"
+EXP_CODE = "final_entrega"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -168,19 +168,19 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   # No me engraso las manos con las variables nuevas agregadas por un RF
   # esta parte demora mucho tiempo en correr, y estoy en modo manos_limpias
   param_local$RandomForest$run <- TRUE
-  param_local$RandomForest$num.trees <- 35
+  param_local$RandomForest$num.trees <- 30
   param_local$RandomForest$max.depth <- 5
   param_local$RandomForest$min.node.size <- 1000
   param_local$RandomForest$mtry <- 40
 
   # no me engraso las manos con los Canaritos Asesinos
   # varia de 0.0 a 2.0, si es 0.0 NO se activan
-  param_local$CanaritosAsesinos1$ratio <- 0.3 # pre RF (optimizo memoria)
-  param_local$CanaritosAsesinos2$ratio <- 0.2 # post RF
+  param_local$CanaritosAsesinos1$ratio <- 0.2 # pre RF (optimizo memoria)
+  param_local$CanaritosAsesinos2$ratio <- 0.1 # post RF
 
   # desvios estandar de la media, para el cutoff
-  param_local$CanaritosAsesinos1$desvios <- 4.0
-  param_local$CanaritosAsesinos2$desvios <- 4.0
+  param_local$CanaritosAsesinos1$desvios <- 2 
+  param_local$CanaritosAsesinos2$desvios <- 2 
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -197,18 +197,19 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
 
   param_local$future <- c(202109)
-  param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011, 
-                              202010, 202009, 202008, 20207, 202005, 202004, 202003, 202002, 202001, #no uso 202006 para entrenar
-                              201912, 201911, 201910, 201909, 201908, 201907)
+  param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011,
+                              202002, 202001, #no uso 202006 para entrenar
+                              201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201904,
+                              201903, 201902, 201901)
 
 
-  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101)
+  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101, 202012, 202011)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
   # Atencion  0.1  de  undersampling de la clase mayoritaria,  los CONTINUA
   # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
-  param_local$train$undersampling <- 0.2
+  param_local$train$undersampling <- 0.3
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -267,23 +268,19 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     force_row_wise = TRUE, # para reducir warnings
     verbosity = -100,
     max_depth = -1L, # -1 significa no limitar,  por ahora lo dejo fijo
-    #min_gain_to_split_enabled = "boolean",
-    min_gain_to_split = c(0.0, 0.1), # min_gain_to_split >= 0.0
-    min_gain_to_split = 0.0, # por ahora, lo dejo fijo
-    #min_sum_hessian_in_leaf_enabled = "boolean",
-    min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
+    min_gain_to_split = c(0.0, 15.0), # min_gain_to_split >= 0.0
+    #min_gain_to_split = 0.0, # por ahora, lo dejo fijo
+    #min_sum_hessian_in_leaf = c(0.001, 0.2), #  min_sum_hessian_in_leaf >= 0.0
     min_sum_hessian_in_leaf = 0.001, #  min_sum_hessian_in_leaf >= 0.0
 
-    #lambda_l1_enabled = "boolean",
-    lambda_l1 = c(0.0, 0.4), # lambda_l1 >= 0.0
-    lambda_l1 = 0.0, # lambda_l1 >= 0.0
+    lambda_l1 = c(0.0, 100.0), # lambda_l1 >= 0.0
+    #lambda_l1 = 0.0, # lambda_l1 >= 0.0
     lambda_l2 = 0.0, # lambda_l2 >= 0.0
     max_bin = 31L, # lo debo dejar fijo, no participa de la BO
     num_iterations = 9999, # un numero muy grande, lo limita early_stopping_rounds
 
-    #bagging_fraction_enabled = "boolean",
-    bagging_fraction = c(0.0, 1.0), # 0.0 < bagging_fraction <= 1.0
-    bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
+    bagging_fraction = c(0.5, 1.0), # 0.0 < bagging_fraction <= 1.0
+    #bagging_fraction = 1.0, # 0.0 < bagging_fraction <= 1.0
     pos_bagging_fraction = 1.0, # 0.0 < pos_bagging_fraction <= 1.0
     neg_bagging_fraction = 1.0, # 0.0 < neg_bagging_fraction <= 1.0
     is_unbalance = FALSE, #
@@ -303,7 +300,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 200 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 100 # iteraciones de la Optimizacion Bayesiana
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -320,7 +317,7 @@ ZZ_final_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   param_local$modelos_rank <- c(1)
 
   param_local$kaggle$envios_desde <-  10000L
-  param_local$kaggle$envios_hasta <- 13000L
+  param_local$kaggle$envios_hasta <- 12500L
   param_local$kaggle$envios_salto <-   500L
 
   # para el caso que deba graficar
