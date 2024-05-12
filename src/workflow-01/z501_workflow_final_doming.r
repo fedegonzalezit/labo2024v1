@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "final_con_pandemia_domingo"
+EXP_CODE = "final_con_pandemia_domingo" # al final es sin pandemia
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -202,7 +202,7 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
                               201912, 201911, 201910, 201909)
 
 
-  param_local$train$training <- c(202105, 202104, 202103, 202102, 202101, 202012, 202011)
+  param_local$train$training <- c(202105, 202104, 202103, 202102)
   param_local$train$validation <- c(202106)
   param_local$train$testing <- c(202107)
 
