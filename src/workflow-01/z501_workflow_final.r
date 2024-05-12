@@ -379,7 +379,7 @@ corrida_guantesblancos_202109 <- function( pnombrewf, pvirgen=FALSE )
   HT_tuning_guantesblancos( paste("HT0001", EXP_CODE, sep=""), paste("TS0001", EXP_CODE, sep="") )
 
   # El ZZ depente de HT y TS
-  ZZ_final_semillerio_baseline( paste0("ZZ0001-sem", EXP_CODE) c(paste0("HT0001", EXP_CODE),paste0("TS0001", EXP_CODE)) )
+  ZZ_final_semillerio_baseline( paste0("ZZ0001-sem", EXP_CODE), c(paste0("HT0001", EXP_CODE),paste0("TS0001", EXP_CODE)) )
 
 
   exp_wf_end( pnombrewf, pvirgen ) # linea fija
