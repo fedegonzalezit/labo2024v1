@@ -198,9 +198,8 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011,
-                              202010, 202009, 202008, 202007, 202006, 202005, 202004, 202003, 202002, 202001, #no uso 202006 para entrenar
-                              201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201904,
-                              201903, 201902, 201901)
+                              202010, 202009, 202008, 202002, 202001, #no uso 202006 para entrenar
+                              201912, 201911, 201910, 201909)
 
 
   param_local$train$training <- c(202105, 202104, 202103, 202102, 202101, 202012, 202011)
@@ -316,8 +315,8 @@ ZZ_final_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
   # Que modelos quiero, segun su posicion en el ranking e la Bayesian Optimizacion, ordenado por ganancia descendente
   param_local$modelos_rank <- c(1)
 
-  param_local$kaggle$envios_desde <-  10000L
-  param_local$kaggle$envios_hasta <- 12500L
+  param_local$kaggle$envios_desde <-  10500L
+  param_local$kaggle$envios_hasta <- 14000L
   param_local$kaggle$envios_salto <-   500L
 
   # para el caso que deba graficar
@@ -342,8 +341,8 @@ ZZ_final_semillerio_baseline <- function( pmyexp, pinputexps, pserver="local")
   # Que modelos quiero, segun su posicion en el ranking e la Bayesian Optimizacion, ordenado por ganancia descendente
   param_local$modelos_rank <- c(1)
 
-  param_local$kaggle$envios_desde <-  10000L
-  param_local$kaggle$envios_hasta <- 13000L
+  param_local$kaggle$envios_desde <-  10500L
+  param_local$kaggle$envios_hasta <- 14000L
   param_local$kaggle$envios_salto <-   500L
 
   # para el caso que deba graficar
