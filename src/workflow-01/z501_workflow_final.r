@@ -21,7 +21,7 @@ envg$EXPENV$repo_dir <- "~/labo2024v1/"
 envg$EXPENV$datasets_dir <- "~/buckets/b1/datasets/"
 envg$EXPENV$arch_sem <- "mis_semillas.txt"
 
-EXP_CODE = "final_entrega"
+EXP_CODE = "final_entrega_completo"
 
 # default
 envg$EXPENV$gcloud$RAM <- 64
@@ -198,7 +198,7 @@ TS_strategy_guantesblancos_202109 <- function( pmyexp, pinputexps, pserver="loca
 
   param_local$future <- c(202109)
   param_local$final_train <- c(202107, 202106, 202105, 202104, 202103, 202102, 202101, 202012, 202011,
-                              202002, 202001, #no uso 202006 para entrenar
+                              202010, 202009, 202008, 202007, 202006, 202005, 202004, 202003, 202002, 202001, #no uso 202006 para entrenar
                               201912, 201911, 201910, 201909, 201908, 201907, 201906, 201905, 201904,
                               201903, 201902, 201901)
 
