@@ -299,7 +299,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
 
   # una Beyesian de Guantes Blancos, solo hace 15 iteraciones
-  param_local$bo_iteraciones <- 40 # iteraciones de la Optimizacion Bayesiana
+  param_local$bo_iteraciones <- 35 # no va a dar el tiempo para mas
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
@@ -352,7 +352,7 @@ ZZ_final_semillerio_baseline <- function( pmyexp, pinputexps, pserver="local")
 
   # El parametro fundamental de semillerio
   # Es la cantidad de LightGBM's que ensamblo
-  param_local$semillerio <- 40
+  param_local$semillerio <- 40 # llegue hasta la 9
 
   return( exp_correr_script( param_local ) ) # linea fija
 }
