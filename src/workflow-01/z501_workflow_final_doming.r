@@ -144,7 +144,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con las tendencias
   param_local$Tendencias1$run <- TRUE  # FALSE, no corre nada de lo que sigue
-  param_local$Tendencias1$ventana <- 5
+  param_local$Tendencias1$ventana <- 4
   param_local$Tendencias1$tendencia <- TRUE
   param_local$Tendencias1$minimo <- TRUE
   param_local$Tendencias1$maximo <- TRUE
@@ -155,7 +155,7 @@ FE_historia_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
 
   # no me engraso las manos con las tendencias de segundo orden
   param_local$Tendencias2$run <- TRUE 
-  param_local$Tendencias2$ventana <- 10
+  param_local$Tendencias2$ventana <- 8
   param_local$Tendencias2$tendencia <- TRUE
   param_local$Tendencias2$minimo <- TRUE
   param_local$Tendencias2$maximo <- TRUE
@@ -289,7 +289,7 @@ HT_tuning_guantesblancos <- function( pmyexp, pinputexps, pserver="local")
     max_drop = 50, # <=0 means no limit
     skip_drop = 0.5, # 0.0 <= skip_drop <= 1.0
 
-    extra_trees = FALSE,
+    extra_trees = TRUE,
     # White Gloves Bayesian Optimization, with a happy narrow exploration
     learning_rate = c( 0.02, 0.5 ),
     feature_fraction = c( 0.5, 0.9 ),
